@@ -37,3 +37,50 @@ Contracts:
     - May print intermediate info only behind flags.
     - Exit code remains 0 (assignment demo environment friendly).
 """
+
+
+def demo_io() -> None:
+    """
+    Demo for I/O and pretty printing (no solving yet).
+    - Reads and prints puzzles category by category.
+    - Shows placeholder status for each puzzle.
+    - Runs one manual input session at the end.
+    """
+    from io_utils import (
+        get_valid_puzzles, get_unsolvable_puzzles,
+        get_unofficial_puzzles, manual_input, print_grid)
+    
+    categories = [
+        ("VALID", get_valid_puzzles),
+        ("UNSOLVABLE", get_unsolvable_puzzles),
+        ("UNOFFICIAL (solved + multiple-solution)", get_unofficial_puzzles),
+    ]
+
+    print("\n=== CP468 Sudoku I/O Demo ===")
+    for label, loader in categories:
+        print(f"\n--- {label} ---")
+        try:
+            puzzles = loader()
+        except Exception as e:
+            print(f"[ERROR] Failed to load {label.lower()} puzzles: {e}")
+            continue
+
+        if not puzzles:
+            print(f"[INFO] No {label.lower()} puzzles found.")
+            continue
+
+        for idx, grid in enumerate(puzzles, start=1):
+            print(f"\n[{label}] Puzzle {idx}/{len(puzzles)}")
+            print_grid(grid)
+            # Placeholder status (solver not wired yet)
+            print("Arc-consistent: N/A | Solved: N/A  (placeholder)")
+
+    # Manual input mode
+    print("\n=== Manual Input Mode ===")
+    user_grid = manual_input()
+    print("Arc-consistent: N/A | Solved: N/A  (placeholder)")
+    print("\n=== End of I/O Demo ===")
+
+
+if __name__ == "__main__":
+    demo_io()
