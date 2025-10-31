@@ -39,7 +39,7 @@ def ac3(csp: CSP, queue: Optional[Iterable[tuple[Var, Var]]] = None, track_queue
     while arc_queue:
         if track_queue:
             queue_lengths.append(len(arc_queue))
-        Xi, Xj = arc_queue.pop()
+        Xi, Xj = arc_queue.popleft()
         
         if revise(csp, Xi, Xj):
             if len(csp.domains[Xi]) == 0:
