@@ -6,6 +6,7 @@ Contributors:
     - Julian Rincon - code
     - Anton - documentation
     - Jordan F. - fix neighbor construction
+    - Roop - fixed constraints
 """
 
 from __future__ import annotations
@@ -18,7 +19,7 @@ Value = int            # 1..9
 
 def _binary_neq_adapter(x1: Var, a: Value, x2: Var, b: Value) -> bool:
     """Adapter for the binary_neq constraint"""
-    return constraints.binary_neq(x1, x2, a, b)
+    return constraints.binary_neq(x1, a, x2, b)
 
 
 def _same_box_correct(x1: Var, x2: Var) -> bool:

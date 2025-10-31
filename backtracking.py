@@ -88,6 +88,15 @@ def _assign_and_infer(csp: CSP, var: Var, value: int, trail: Trail) -> bool:
     # Assign the value
     csp.domains[var] = {value}
 
+    # Forward checking
+    for neighbor in csp.neighbors[var]:
+        if value in csp.domains[neighbor]:
+            trail.record(neighbor, {value})
+            csp.domains[neighbor].remove(value)
+            if len(csp.domains[neighbor]) == 0:
+                return False
+            
+
     # Run AC-3 on neighbors of var
     arcs = [(neighbor, var) for neighbor in csp.neighbors[var]]
     is_consistent, _ = ac3.ac3(csp, queue=arcs, track_queue=False)

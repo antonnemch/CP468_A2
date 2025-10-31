@@ -27,7 +27,7 @@ Notes:
     - These helpers are used by sudoku_csp.sudoku_csp_from_grid to build neighbors.
 """
 
-def binary_neq(x1, x2, a, b):
+def binary_neq(x1, a, x2, b):
     return a != b
 
 def same_row(x1, x2):
@@ -42,7 +42,7 @@ def same_box(x1, x2):
     row2 = (ord(x2[0]) - ord('A')) // 3
 
     # find col of box
-    col1 = (int(x2[1]) - 1) // 3
+    col1 = (int(x1[1]) - 1) // 3
     col2 = (int(x2[1]) - 1) // 3
 
     return row1 == row2 and col1 == col2
