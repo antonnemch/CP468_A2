@@ -50,3 +50,15 @@ def ac3(csp: CSP, queue: Optional[Iterable[tuple[Var, Var]]] = None, track_queue
                     arc_queue.append((Xk, Xi))
     
     return True,queue_lengths
+
+def revise(csp: CSP, Xi: Var, Xj: Var) -> bool:
+    """
+    Make Xi arc consistent w.r.t. Xj.
+    Args:
+        csp: The constraint satisfaction problem
+        Xi: Source var
+        Xj: Target var
+    Returns:
+        True if domain of Xi was revised (vals removed), false otherwise
+    """
+    
