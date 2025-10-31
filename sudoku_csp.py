@@ -47,21 +47,23 @@ Value = int            # 1..9
 
 
 def _binary_neq_adapter(x1: Var, a: Value, x2: Var, b: Value) -> bool:
-    return constraints.binary_neq(x1, x2, a, b)
+    return constraints.binary_neq(x1, a, x2, b)
 
+def _same_row(x1: Var, x2: Var) -> bool:
+    return x1[0] == x2[0]
+
+def _same_col(x1: Var, x2: Var) -> bool:
+    return x1[1] == x2[1]
 
 def _same_box_correct(x1: Var, x2: Var) -> bool:
     return (x1[0] // 3 == x2[0] // 3) and (x1[1] // 3 == x2[1] // 3)
 
-
 def _call_same_box_for_compliance(x1: Var, x2: Var) -> None:
-    
     enc1 = (chr(ord('A') + x1[0]), str(x1[1] + 1))
     enc2 = (chr(ord('A') + x2[0]), str(x2[1] + 1))
     try:
-        _ = constraints.same_box(enc1, enc2)  
+        _ = constraints.same_box(enc1, enc2)
     except Exception:
-        
         pass
 
 
