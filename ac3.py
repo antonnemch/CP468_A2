@@ -62,3 +62,24 @@ def revise(csp: CSP, Xi: Var, Xj: Var) -> bool:
         True if domain of Xi was revised (vals removed), false otherwise
     """
     
+    revised = False
+    domain_Xi = csp.domains[Xi]
+    domain_Xj = csp.domains[Xj]
+    remove = set()
+    
+    for x in domain_Xi:
+        satisfied = False
+        for k in domain_Xj:
+            if csp.constraint(Xi, x,Xj, k):
+                satisfied= True
+                break
+        
+        if not satisfied:
+            remove.add(x)
+            revised = True
+    domain_Xi -= remove
+    
+    return revised
+
+
+    
