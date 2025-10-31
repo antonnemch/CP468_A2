@@ -21,6 +21,11 @@ def _binary_neq_adapter(x1: Var, a: Value, x2: Var, b: Value) -> bool:
     """Adapter for the binary_neq constraint"""
     return constraints.binary_neq(x1, a, x2, b)
 
+def _same_row(x1: Var, x2: Var) -> bool:
+    return x1[0] == x2[0]
+
+def _same_col(x1: Var, x2: Var) -> bool:
+    return x1[1] == x2[1]
 
 def _same_box_correct(x1: Var, x2: Var) -> bool:
     """Return True if x1 and x2 are in the same 3x3 box"""
