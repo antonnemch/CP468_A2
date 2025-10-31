@@ -17,3 +17,36 @@ Functions:
 from collections import deque
 from typing import Iterable, Optional
 from sudoku_csp import CSP, Var
+
+def ac3(csp: CSP, queue: Optional[Iterable[tuple[Var, Var]]] = None, track_queue: bool = False) -> tuple[bool, Optional[list[int]]]:
+    """
+    Enforce arc consistency using AC3 algorithm
+    Args:
+        csp: The constraint satisfaction problem
+        queue: Initial arcs to process (defaults to all arcs)
+        track_queue: Whether to track queue length at each step
+    Returns:
+        is_consistent: True if arc-consistent, false if inconsistency detected --> backtracking
+        queue_lengths: List of queue sizes at each pop (only if track_queue=True)
+    """
+    
+    if queue is None:
+        arc_queue = deque(csp.all_arcs())
+    else:
+        arc_queue = deque(queue)
+    queue_lengths = [] if track_queue else
+    
+    while arc_queue:
+        if track_queue:
+            queue_lengths.append(len(arc_queue))
+        Xi, Xj = arc_queue.pop()
+        
+        if revise(csp, Xi, Xj):
+            if len(csp.domains[Xi]) == 0:
+                return False,queue_lengths
+            
+            for Xk in csp.neighbors[Xi]:
+                if Xk == Xj:
+                    arc_queue.append((Xk, Xi))
+    
+    return True,queue_lengths
