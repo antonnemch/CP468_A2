@@ -8,7 +8,7 @@ Contributors:
 Functions:
     - select_var_mrv(csp) -> Var
     - degree_tiebreak(csp, candidates) -> Var
-    - order_values_lcv(csp, var) -> list[int]
+    - order_values_lcv(csp, var) ->list[int]
 """
 
 from typing import List, Optional
@@ -32,3 +32,16 @@ def select_var_mrv(csp: CSP) -> Optional[Var]:
         return candidates[0]
     
     return degree_tiebreak(csp, candidates)
+
+
+
+
+def degree_tiebreak(csp: CSP, candidates: List[Var]) -> Var:
+    """
+    For MRV ties, select var with most unassigned neighbors
+    """
+    def count_unassigned_neighbors(var: Var) -> int:
+        return sum(1 for nb in csp.neighbors[var] if len(csp.domains[nb]) > 1)
+    
+    return max(candidates,key=count_unassigned_neighbors)
+
