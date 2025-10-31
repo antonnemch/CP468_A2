@@ -10,7 +10,7 @@ Objects to Implement:
     - class CSP:
         Attributes:
             - variables: list[Var]                     # Var = tuple[int,int], (row, col) 0..8
-            - domains: dict[Var, set[int]]             # values in 1..9
+            - domains: dict[Var, set[int]]             # values in 1 .. 9
             - neighbors: dict[Var, set[Var]]           # row/col/box adjacency
             - constraint: Callable[[Var,int,Var,int], bool]
         Methods:
