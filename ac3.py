@@ -4,10 +4,6 @@ AC-3 algorithm for enforcing arc consistency on a CSP.
 
 Contributors:
     - Jordan F.
-    - (Name 2)
-    - (Name 3)
-    - (Name 4)
-    - (Name 5)
 
 Functions:
     - ac3(csp, queue, track_queue) -> (bool, list[int] | None)
@@ -37,7 +33,7 @@ def ac3(csp: CSP, queue: Optional[Iterable[tuple[Var, Var]]] = None, track_queue
     queue_lengths = [] if track_queue else None
     
     while arc_queue:
-        if track_queue:
+        if track_queue and queue_lengths is not None:
             queue_lengths.append(len(arc_queue))
         Xi, Xj = arc_queue.popleft()
         
