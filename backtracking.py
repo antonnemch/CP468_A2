@@ -83,18 +83,23 @@ def _backtrack(csp: CSP, trail:Trail) -> bool:
 
 
 def _assign_and_infer(csp: CSP, var: Var, value: int, trail: Trail) -> bool:
+    # Record current domains
     saved_domains = {v: csp.domains[v].copy() for v in csp.variables}
-    
-    csp.domains[var] = {value}
-    
-    # Run AC-3 on all arcs after assignment
-    is_consistent, _ = ac3.ac3(csp)
+
+    # Assign value
+    csp.domains[var].clear()
+    csp.domains[var].add(value)
+
+    # Prepare all arcs related to var in both directions
+    arcs = [(var, n) for n in csp.neighbors[var]] + [(n, var) for n in csp.neighbors[var]]
+    is_consistent, _ = ac3.ac3(csp, queue=arcs)
+
     if not is_consistent:
         return False
 
-    # Record removed values
+    # Record all removed values for trail
     for v in csp.variables:
         removed = saved_domains[v] - csp.domains[v]
-        if removed:
-            trail.record(v, removed)
+        trail.record(v, removed)
+
     return True
