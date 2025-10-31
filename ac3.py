@@ -34,7 +34,7 @@ def ac3(csp: CSP, queue: Optional[Iterable[tuple[Var, Var]]] = None, track_queue
         arc_queue = deque(csp.all_arcs())
     else:
         arc_queue = deque(queue)
-    queue_lengths = [] if track_queue else
+    queue_lengths = [] if track_queue else None
     
     while arc_queue:
         if track_queue:
@@ -46,7 +46,7 @@ def ac3(csp: CSP, queue: Optional[Iterable[tuple[Var, Var]]] = None, track_queue
                 return False,queue_lengths
             
             for Xk in csp.neighbors[Xi]:
-                if Xk == Xj:
+                if Xk != Xj:
                     arc_queue.append((Xk, Xi))
     
     return True,queue_lengths
