@@ -45,3 +45,18 @@ def degree_tiebreak(csp: CSP, candidates: List[Var]) -> Var:
     
     return max(candidates,key=count_unassigned_neighbors)
 
+
+def order_values_lcv(csp: CSP, var: Var) -> List[int]:
+    """
+    Least Constraining Value heuristic which orders values by how many other domain vlaues they eliminate
+    """
+    def count_conflicts(value: int) -> int:
+        """
+        helper to count least number of conflicts
+        """
+        cons = 0
+        for n in csp.neighbors[var]:
+            if len(csp.domains[n])> 1 and value in csp.domains[n]:
+                cons += 1
+        return cons
+    return sorted(csp.domains[var], key=count_conflicts)
