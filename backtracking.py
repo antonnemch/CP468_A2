@@ -21,3 +21,9 @@ from typing import Dict, List, Set
 from sudoku_csp import CSP, Var
 import heuristics
 import ac3
+
+class Trail:
+    """Documents domain changes for efficient backtracking algorithm"""
+    
+    def __init__(self):
+        self.frames: List[List[tuple[Var,Set[int]]]] = []
