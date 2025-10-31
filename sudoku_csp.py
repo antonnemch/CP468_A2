@@ -144,11 +144,11 @@ def sudoku_csp_from_grid(grid: List[List[int]]) -> CSP:
             if xi == xj:
                 continue
 
-            same_row = constraints.same_row(xi, xj)      
-            same_col = constraints.same_col(xi, xj)      
-
-            _call_same_box_for_compliance(xi, xj)
-            same_box = _same_box_correct(xi, xj)         
+            same_row = _same_row(xi, xj)
+            same_col = _same_col(xi, xj)
+            _call_same_box_for_compliance(xi, xj) 
+            same_box = _same_box_correct(xi, xj)
+         
 
             if same_row or same_col or same_box:
                 neighbors[xi].add(xj)
