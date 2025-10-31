@@ -61,6 +61,7 @@ def solve_puzzle(puzzle_path: str, track_queue: bool = False, show_queue: bool =
         print_status(is_consistent=True, solved=False)
 
 def main():
+    parser = argparse.ArgumentParser(description="Sudoku CSP Solver with AC-3 algorithm")
     parser.add_argument("puzzle_path")
     parser.add_argument("--track-queue", action="store_true")
     parser.add_argument("--show-queue", action="store_true")
