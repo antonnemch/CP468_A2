@@ -81,6 +81,5 @@ if __name__ == "__main__":
         print("No arguments provided, running demo mode")
         print("For solver mode use: python main.py <puzzle_path> [--track-queue] [--show-queue]")
         print("\nExample: python main.py test_puzzles/valid/puzzle1.txt --track-queue --show-queue")
-        #demo_io()
     else:
         main()
