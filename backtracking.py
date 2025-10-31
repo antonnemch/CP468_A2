@@ -35,7 +35,7 @@ class Trail:
     def record(self, var: Var, removed_values: Set[int]):
         """Record vals removed from a specific variables domain"""
         if removed_values and self.frames:
-            self.frames[-1].append((var,removed_values.copy())
+            self.frames[-1].append((var,removed_values.copy()))
     
     def pop_frame_and_undo(self, domains: Dict[Var, Set[int]]):
         """Undo all changes in the current frame (backtrack!)"""
