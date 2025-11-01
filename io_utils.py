@@ -11,7 +11,7 @@ from typing import List
 
 def read_puzzle(path: str) -> list[list[int]]:
     """
-    Reads a Sudoku puzzle from a text file
+    Read a Sudoku puzzle from a text file
     Return it as a 9x9 list of integers
     """
 
@@ -21,7 +21,7 @@ def read_puzzle(path: str) -> list[list[int]]:
         assert len(lines) == 9, "Puzzle must have exactly 9 lines."
         for line in lines:
             line = line.strip()
-            assert len(line) == 9, "make sure each line must have exactly 9 characters."
+            assert len(line) == 9, " make sure each line must have exactly 9 characters."
             row = []
             for char in line:
                 # Convert digits 1–9 to integers and treat '0' or '.' as blanks
@@ -43,7 +43,7 @@ def _puzzle_dir() -> Path:
 def _load_dir(dir_path: Path, label: str) -> List[List[List[int]]]:
     """
     Load all puzzles from a folder using read_puzzle()
-    Prints how many puzzles were found. Sorted by filename for deterministic order.
+    Print how many puzzles were found. Sorted by filename for deterministic order.
     """
 
     grids: List[List[List[int]]] = []
@@ -70,7 +70,7 @@ def get_valid_puzzles() -> List[List[List[int]]]:
 def get_unsolvable_puzzles() -> List[List[List[int]]]:
     """
     Return list of unsolavable Sudoku puzzles from test_puzzles/unsolvable/*.txt.
-    These should trigger inconsistency under AC-3 or search.
+    Should trigger inconsistency under AC-3 or search.
     """
 
     return _load_dir(_puzzle_dir() / "unsolvable", "unsolvable")
@@ -172,7 +172,7 @@ def manual_input() -> list[list[int]]:
 def print_status(is_consistent: bool, solved: bool) -> None:
     """
     Print a concise standardized status line:
-    "Arc-consistent: YES/NO | Solved: YES/NO"
+    Arc-consistent: YES/NO | Solved: YES/NO"
     """
 
     if is_consistent:

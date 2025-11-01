@@ -13,15 +13,13 @@ from sudoku_csp import CSP, Var
 def ac3(csp: CSP, queue: Optional[Iterable[tuple[Var, Var]]] = None, track_queue: bool = False) -> tuple[bool, Optional[list[int]]]:
     """
     AC-3 Algorithm to ensure arc consistency
-
-    Args:
-        csp: The constraint satisfaction problem
-        queue: Initial arcs to process (can be none)
-        track_queue: If True, track queue sizes (default False)
-
-    Returns:
-        is_consistent: True if arc-consistent, false if inconsistency detected
-        queue_lengths: List of queue sizes at each pop (only if track_queue = True)
+    
+    Inputs:
+        constraint satifaction problem
+        initial arcs to process in a queue (can be none)
+        a queue_tracker if needed
+    
+    Returns whether its arc consistent and the optional queue length
     """
     
     # If no initial queue is given, get all arcs from the CSP
