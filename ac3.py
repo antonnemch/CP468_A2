@@ -4,10 +4,6 @@ AC-3 algorithm for enforcing arc consistency on a CSP.
 
 Contributors:
     - Jordan F.
-
-Functions:
-    - ac3(csp, queue, track_queue) -> (bool, list[int] | None)
-    - revise(csp, Xi, Xj) -> bool
 """
 
 from collections import deque
@@ -16,35 +12,51 @@ from sudoku_csp import CSP, Var
 
 def ac3(csp: CSP, queue: Optional[Iterable[tuple[Var, Var]]] = None, track_queue: bool = False) -> tuple[bool, Optional[list[int]]]:
     """
-    Enforce arc consistency using AC3 algorithm
+    AC-3 Algorithm to ensure arc consistency
+
     Args:
         csp: The constraint satisfaction problem
-        queue: Initial arcs to process (defaults to all arcs)
-        track_queue: Whether to track queue length at each step
+        queue: Initial arcs to process (can be none)
+        track_queue: If True, track queue sizes (default False)
+
     Returns:
-        is_consistent: True if arc-consistent, false if inconsistency detected --> backtracking
-        queue_lengths: List of queue sizes at each pop (only if track_queue=True)
+        is_consistent: True if arc-consistent, false if inconsistency detected
+        queue_lengths: List of queue sizes at each pop (only if track_queue = True)
     """
     
+    # If no initial queue is given, get all arcs from the CSP
     if queue is None:
         arc_queue = deque(csp.all_arcs())
     else:
         arc_queue = deque(queue)
-    queue_lengths = [] if track_queue else None
     
+    # Only track queue size of needed
+    if track_queue:
+        queue_lengths = []
+    else:
+        queue_lengths = None
+
+
     while arc_queue:
+        # If we are tracking the queue size, record the current length
         if track_queue and queue_lengths is not None:
             queue_lengths.append(len(arc_queue))
+            
+        # Take the next arc off the queue
         Xi, Xj = arc_queue.popleft()
         
+        # Check the domain of Xi based on Xj
         if revise(csp, Xi, Xj):
+            #If the domain of Xi is empty then the CSP is inconsistent
             if len(csp.domains[Xi]) == 0:
                 return False,queue_lengths
             
+            # Add all arcs (Xk, Xi) back to the queue for neighbors Xk of Xi, excluding Xj
             for Xk in csp.neighbors[Xi]:
                 if Xk != Xj:
                     arc_queue.append((Xk, Xi))
     
+    # Returns true if no conficlts are found
     return True,queue_lengths
 
 def revise(csp: CSP, Xi: Var, Xj: Var) -> bool:
@@ -55,24 +67,29 @@ def revise(csp: CSP, Xi: Var, Xj: Var) -> bool:
         Xi: Source var
         Xj: Target var
     Returns:
-        True if domain of Xi was revised (vals removed), false otherwise
+        True if value is removed, false otherwise
     """
+
     
     revised = False
     domain_Xi = csp.domains[Xi]
     domain_Xj = csp.domains[Xj]
+
+    #store values from the domain of Xi that should be removed
     remove = set()
     
     for x in domain_Xi:
-        satisfied = False
+        satisfied = False #Only true if x has a valid partner in the domain of Xj
         for k in domain_Xj:
             if csp.constraint(Xi, x,Xj, k):
-                satisfied= True
+                satisfied = True
                 break
         
+        #If no value in Xj satisfies the constraint, x will be removed
         if not satisfied:
             remove.add(x)
             revised = True
+    #Remove the values from the domain of Xi that didnt work
     domain_Xi -= remove
     
     return revised
