@@ -4,9 +4,6 @@ Entry point and orchestration for Sudoku-as-CSP.
 Contributors:
     - Anton
     - Jordan F.
-    - (Name 3)
-    - (Name 4)
-    - (Name 5)
     
 """
 

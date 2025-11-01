@@ -37,12 +37,7 @@ def same_col(x1, x2):
     return x1[1] == x2[1]
 
 def same_box(x1, x2):
-    # find row of box
-    row1 = (ord(x1[0]) - ord('A')) // 3
-    row2 = (ord(x2[0]) - ord('A')) // 3
+    r1, c1 = x1
+    r2, c2 = x2
+    return (r1 // 3 == r2 // 3) and (c1 // 3 == c2 // 3)
 
-    # find col of box
-    col1 = (int(x1[1]) - 1) // 3
-    col2 = (int(x2[1]) - 1) // 3
-
-    return row1 == row2 and col1 == col2

@@ -17,20 +17,6 @@ Var = Tuple[int, int]  # (row, col), 0-based
 Value = int            # 1..9
 
 
-def _binary_neq_adapter(x1: Var, a: Value, x2: Var, b: Value) -> bool:
-    """Adapter for the binary_neq constraint"""
-    return constraints.binary_neq(x1, a, x2, b)
-
-def _same_row(x1: Var, x2: Var) -> bool:
-    return x1[0] == x2[0]
-
-def _same_col(x1: Var, x2: Var) -> bool:
-    return x1[1] == x2[1]
-
-def _same_box_correct(x1: Var, x2: Var) -> bool:
-    """Return True if x1 and x2 are in the same 3x3 box"""
-    return (x1[0] // 3 == x2[0] // 3) and (x1[1] // 3 == x2[1] // 3)
-
 
 class CSP:
     """CSP object for Sudoku"""
@@ -107,12 +93,12 @@ def sudoku_csp_from_grid(grid: List[List[int]]) -> CSP:
         for (r2, c2) in variables:
             if (r1, c1) == (r2, c2):
                 continue
-            if r1 == r2 or c1 == c2 or _same_box_correct((r1, c1), (r2, c2)):
+            if (constraints.same_row((r1, c1), (r2, c2)) or constraints.same_col((r1, c1), (r2, c2)) or constraints.same_box((r1, c1), (r2, c2))):
                 neighbors[(r1, c1)].add((r2, c2))
 
     return CSP(
         variables=variables,
         domains=domains,
         neighbors=neighbors,
-        constraint=_binary_neq_adapter,
+        constraint=constraints.binary_neq
     )
